@@ -26,6 +26,7 @@ class CrudRepository{
             }
         });
         if(!response) {
+            Logger.error('Something went wrong in CrudRepo: Destory',error);
             throw new AppError('Not able to fund the resource', StatusCodes.NOT_FOUND);
         }
         return response;
@@ -35,9 +36,9 @@ class CrudRepository{
     {
         try {
             const response =await this.model.findByPk(data); 
-            console.log('response232', response)
             if(!response)
             {
+                Logger.error('Something went wrong in CrudRepo: Get',error);
                 throw new AppError("Not able to find the resource",StatusCodes.NOT_FOUND)
             }
             return response;
@@ -56,14 +57,19 @@ class CrudRepository{
     async update(id,data)
     {
         try {
-            const response =await this.model.update(data,{
+            const [responseCount] =await this.model.update(data,{
                 where:{
                     id:id
                 }
-            }); 
-            return response;
+            });
+            if(responseCount === 0 )
+            {
+                throw new AppError("Not able to find the resource to update",StatusCodes.NOT_FOUND)
+            }
+
+            return responseCount;
         } catch (error) {
-            Logger.error('Something went wrong in CrudRepo: get',error);
+            Logger.error('Something went wrong in CrudRepo: update',error);
             throw error;
         }
     }

@@ -2,6 +2,13 @@ const { StatusCodes } = require('http-status-codes')
 const { AirplaneService } = require('../services');
 const { SuccessResponse, ErrorResponse } = require('../utils/common');
 
+/**
+ * GET : /airplanes
+ * req-body {
+ *  "modelNumber" : "",
+ *  "capacity" : ""
+ * }
+ */
 async function createAeroplane(req,res) {
     try {
         const airplane = await AirplaneService.createAeroplane({
@@ -67,9 +74,30 @@ async function getAirplane(req, res) {
  * req-body {}
  */
 async function deleteAirplane(req, res) {
-    console.log('req.params.id123', req.params.id)
     try {
         const airplanes = await AirplaneService.deleteAirplane(req.params.id);
+        SuccessResponse.data = airplanes;
+        return res
+                .status(StatusCodes.OK)
+                .json(SuccessResponse);
+    } catch(error) {
+        ErrorResponse.error = error;
+        return res
+                .status(error.statusCode)
+                .json(ErrorResponse);
+    }
+}
+
+/**
+ * PATCH : /airplanes/:id
+ * req-body {
+ *  "modelNumber" : "",
+ *  "capacity" : ""
+ * }
+ */
+async function updateAirplane(req, res) {
+    try {
+        const airplanes = await AirplaneService.updateAirplane(req.params.id , req.body);
         SuccessResponse.data = airplanes;
         return res
                 .status(StatusCodes.OK)
@@ -86,5 +114,6 @@ module.exports={
     createAeroplane,
     getAirplanes,
     getAirplane,
-    deleteAirplane
+    deleteAirplane,
+    updateAirplane
 }
