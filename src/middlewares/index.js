@@ -1,3 +1,4 @@
 module.exports = {
-    ValidateCreateRequestMiddleware:require('./airplane-middleware')
+    ValidateCreateRequestMiddleware:require('./airplane-middleware'),
+    ValidateCreateCityRequestMiddleware:require('./city-middleware')
 }
