@@ -11,6 +11,14 @@ function ValidateCreateRequest(req,res,next){
                 .status(StatusCodes.BAD_REQUEST)
                 .json(ErrorResponse)
     }
+    if(!req.body.capacity){
+
+        ErrorResponse.message="Something went wrong";
+        ErrorResponse.error=new AppError(["Incorrect paramenter capacity" ],StatusCodes.BAD_REQUEST)
+        return res
+                .status(StatusCodes.BAD_REQUEST)
+                .json(ErrorResponse)
+    }
     next();
 }
 
