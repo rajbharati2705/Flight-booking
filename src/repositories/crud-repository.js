@@ -27,7 +27,7 @@ class CrudRepository{
         });
         if(!response) {
             Logger.error('Something went wrong in CrudRepo: Destory',error);
-            throw new AppError('Not able to fund the resource', StatusCodes.NOT_FOUND);
+            throw new AppError('Not able to find the resource', StatusCodes.NOT_FOUND);
         }
         return response;
     }
