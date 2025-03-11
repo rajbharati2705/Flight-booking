@@ -19,19 +19,16 @@ class CrudRepository{
         }
     }
 
-    async destory(data)
-    {
-        try {
-            const response =await this.model.destory({
-                where:{
-                    id:data
-                }
-            });
-            return response;
-        } catch (error) {
-            Logger.error('Something went wrong in CrudRepo: Destory',error);
-            throw error;
+    async destroy(data) {
+        const response = await this.model.destroy({
+            where: {
+                id: data
+            }
+        });
+        if(!response) {
+            throw new AppError('Not able to fund the resource', StatusCodes.NOT_FOUND);
         }
+        return response;
     }
 
     async get(data)
@@ -39,7 +36,7 @@ class CrudRepository{
         try {
             const response =await this.model.findByPk(data); 
             console.log('response232', response)
-            if(response == null)
+            if(!response)
             {
                 throw new AppError("Not able to find the resource",StatusCodes.NOT_FOUND)
             }
